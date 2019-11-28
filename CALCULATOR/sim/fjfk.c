@@ -1,3 +1,0 @@
-vlkakk
-anjkv
-akvakv
