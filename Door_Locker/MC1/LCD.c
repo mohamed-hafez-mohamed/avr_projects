@@ -1,27 +1,30 @@
-﻿/*
- * LCD.c
+/*
+ * lcd.c
  *
- * Created: 9/2/2019 10:26:09 م
- *  Author: MAOHAMED HAFEZ
+ * Created: 8/31/2019 04:23:37 م
+ *  Author: Mohamed Hafez
  */ 
 
 #include<stdio.h>
 #include <stdlib.h>
 #include <util/delay.h>
-#include "LCD.h"
+#include "lcd.h"
 
-#define  F_CPU 8000000UL
+#define  F_CPU 1000000UL
 
 #define EN    ptrlcdcnfg->EN
 #define RS    ptrlcdcnfg->RS
 
 static void kick(const lcdcnfg_t* ptrlcdcnfg, uint8 chr)
 {
+	/*
+	* assign data in the pins of the confg
+	* make pulse to make lcd work
+	*/
 	uint8 i;
-	uint8* ptrchr = &chr;
 	for(i = 0;i < DATA_PINS;i++)
 	{
-		if(IS_BIT_SET(ptrchr,i))
+		if(chr & (SET << i))
 		{
 			pin_write(ptrlcdcnfg->data_pins[i],HIGH_LEVEL);
 		}
@@ -37,6 +40,10 @@ static void kick(const lcdcnfg_t* ptrlcdcnfg, uint8 chr)
 
 void lcd_init(const lcdcnfg_t* ptrlcdcnfg)
 {
+	/*
+	* set dirction output for data and control pins
+	* config the lcd to start working
+	*/
 	uint8 i;
 	for(i = 0;i < DATA_PINS;i++)
 	{
@@ -46,7 +53,7 @@ void lcd_init(const lcdcnfg_t* ptrlcdcnfg)
 	pin_dirc(EN,PIN_OUTPUT);
 	pin_dirc(RS,PIN_OUTPUT);
 	#ifdef _4BIT_MODE
-	lcd_cmd(ptrlcdcnfg,LCD_4BIT_MODE);
+	lcd_cmd(ptrlcdcnfg,LCD_4BIT_MODE);        
 	lcd_cmd(ptrlcdcnfg,LCD_4BIT_MODE_2_LINE);
 	#endif
 	
@@ -61,6 +68,10 @@ void lcd_init(const lcdcnfg_t* ptrlcdcnfg)
 
 void lcd_cmd(const lcdcnfg_t* ptrlcdcnfg, uint8 cmd)
 {
+	/*
+	* select the register "command || data " in this case command
+	* sent the command
+	*/
 	pin_write(RS,LOW_LEVEL);
 	
 	#ifdef _8BIT_MODE
@@ -119,14 +130,13 @@ void lcd_chr(const lcdcnfg_t* ptrlcdcnfg, uint8 chr)
 	_delay_ms(2);
 }
 
-void lcd_str(const lcdcnfg_t* ptrlcdcnfg, uint8* str)
+void lcd_str(const lcdcnfg_t* ptrlcdcnfg, uint8 str[])
 {
-	uint8 count;
-	while(*str != '\0')
+	uint8 count = 0;
+	while(str[count] != '\0')
 	{
+		lcd_chr(ptrlcdcnfg,str[count]);
 		count++;
-		lcd_chr(ptrlcdcnfg,*str);
-		str++;
 		if (count == COL16) // go to the second line
 		{
 			lcd_setCursor(ptrlcdcnfg,1,0); //line 1 position zero
@@ -140,7 +150,7 @@ void lcd_str(const lcdcnfg_t* ptrlcdcnfg, uint8* str)
 	}
 }
 
-void lcd_num(const lcdcnfg_t* ptrlcdcnfg, uint32 num)
+void lcd_num(const lcdcnfg_t* ptrlcdcnfg, uint8 num)
 {
 	uint8 *buffer[16];
 	itoa(num, buffer, DECIMAL);
@@ -158,4 +168,4 @@ void lcd_fnum(const lcdcnfg_t* ptrlcdcnfg, float fnum)
 	// Print as parts
 	sprintf (buffer, "%s%d.%2d", tmpSign, tmpInt1, tmpInt2);
 	lcd_str(ptrlcdcnfg,buffer) ;
-} 
+}
