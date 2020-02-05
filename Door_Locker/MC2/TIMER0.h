@@ -1,7 +1,7 @@
-﻿/*
+/*
  * TIMER0.h
  *
- * Created: 9/10/2019 02:19:21 م
+ * Created: 9/10/2019 02:19:21 ?
  *  Author: mah_h
  */ 
 
@@ -9,10 +9,8 @@
 #ifndef TIMER0_H_
 #define TIMER0_H_
 
+#include <avr/interrupt.h>
 #include "timer_cnfg.h"
-
-#define CLEAR_REGISTER         0x00
-#define SET                    1
 
 typedef enum
 {
@@ -34,25 +32,43 @@ typedef enum
 	Fast_PWM
 }WAVE_FORM_GEN;
 
+typedef enum
+{
+	Normal_port,   //Normal port operation, OC0 disconnected
+	Toggle_on_com, //Toggle OC0 on compare match or reserved with other modes
+	Clear_on_com,  //Clear OC0 on compare match or (non-inverting mode) with other modes
+	Set_on_com     //set OC0 on compare match or (inverting mode) with other modes
+}COMPARE_MATCH_OUTPUT;
+
 typedef enum            //Timer/Counter0 over flow Interrupt Enable
 {
-	TOIE0_enable,
-	TOIE0_disable
+	TOIE0_disable,
+	TOIE0_enable
 }TOVFIE0;
 
 typedef enum            //Timer/Counter0 Output Compare Match Interrupt Enable
 {
-	OCIE0_enable,
-	OCIE0_disable
+	OCIE0_disable,
+	OCIE0_enable
 }OCMIE0;
 
 typedef struct 
 {
-	clk_selectType Timer0_clkSelect;
-	WAVE_FORM_GEN  Timer0_mode;
-	TOVFIE0        Timer0_TOIE;
-	OCMIE0         Timer0_OCIE;
+	clk_selectType        Timer0_clkSelect;
+	WAVE_FORM_GEN         Timer0_mode;
+	COMPARE_MATCH_OUTPUT  Timer0_COM;
+	TOVFIE0               Timer0_TOIE;
+	OCMIE0                Timer0_OCIE;
 }timer0_cnfg;
 
 void timer0_init(timer0_cnfg* ptrtimer0);
+
+uint8 ocr0(uint8 mode, uint8 value);
+
+uint8 tcnt0(uint8 mode, uint8 value);
+
+void ov_int(void (*ptr_ISR)(void));
+
+void oc_int(void (*ptr_ISR)(void));
+
 #endif /* TIMER0_H_ */
