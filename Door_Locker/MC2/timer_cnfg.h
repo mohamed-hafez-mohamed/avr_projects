@@ -1,7 +1,7 @@
-﻿/*
+/*
  * timer_cnfg.h
  *
- * Created: 9/18/2019 02:33:06 م
+ * Created: 9/19/2019 09:42:47 ?
  *  Author: mah_h
  */ 
 
@@ -10,6 +10,7 @@
 #define TIMER_CNFG_H_
 
 #define SET                      1
+#define CLEAR_REGISTER           0x00
 //REGISTERS' ADREESES
 ///TIMER0
 #define TIMER0BASE               0x52
@@ -32,7 +33,7 @@
 #define CONTROL1A_OFFSET         0x09
 //timer2
 #define TIMER2BASE               0x43
-#define OUTPUTCOM2_OFFSET         0x00
+#define OUTPUTCOM2_OFFSET        0x00
 #define TIMER2_OFFSET            0x01
 #define CONTROL2_OFFSET          0x02
 //TIMER0 BITS NAMES
@@ -45,6 +46,8 @@
 #define OCIE0 1
 #define TOV0  0
 #define OCF0  1
+#define OC0   B3
+#define T0    B0
 //TIMER1 BITS NAMES
 #define WGM10  0
 #define COM1B0 4
@@ -56,4 +59,7 @@
 #define WGM21  3
 #define WGM20  6
 #define COM20  4
+
+
+
 #endif /* TIMER_CNFG_H_ */
