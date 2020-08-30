@@ -56,7 +56,7 @@ typedef struct
    ptr_TaskCode Task_PtrCode;
    uint16          Task_uint16ReleaseTime;
    uint16          Task_uint16Period;
-   char         Task_u8RunMeFlag;
+   uint8         Task_u8RunMeFlag;
    void    *    Task_PtrVoidParameter;
 }Task_t;
 
@@ -84,7 +84,7 @@ typedef struct Queue
 * Function Prototypes
 *******************************************************************************/
 
-uint16  SCHEDULER_uint16CreateTask(ptr_TaskCode Copy_PtrTaskCode,uint16 Copy_uint16ReleaseTime, uint16 Copy_uint16Period, char Copy_Flag , void * Copy_PtrTaskParameter);
+uint16  SCHEDULER_uint16CreateTask(ptr_TaskCode Copy_PtrTaskCode,uint16 Copy_uint16ReleaseTime, uint16 Copy_uint16Period, uint8 Copy_Flag , void * Copy_PtrTaskParameter);
 void SCHEDULER_voidInitScheduler(Queue_t * Copy_PtrQueue);
 void SCHEDULER_voidStartScheduler(void);
 uint16  SCHEDULER_uint16AddTask(PtrStructTask_QueueENTRY  Copy_PtrQueueEntry,Queue_t * Copy_PtrQueue);

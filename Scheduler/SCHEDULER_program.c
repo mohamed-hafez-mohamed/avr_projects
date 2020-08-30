@@ -94,7 +94,7 @@ uint16 SCHEDULER_uint16AddTask(PtrStructTask_QueueENTRY  Copy_PtrQueueEntry,Queu
     }
 }
 
-uint16  SCHEDULER_uint16CreateTask(ptr_TaskCode Copy_PtrTaskCode,uint16 Copy_uint16ReleaseTime, uint16 Copy_uint16Period, char Copy_Flag , void * Copy_PtrTaskParameter)
+uint16  SCHEDULER_uint16CreateTask(ptr_TaskCode Copy_PtrTaskCode,uint16 Copy_uint16ReleaseTime, uint16 Copy_uint16Period, uint8 Copy_Flag , void * Copy_PtrTaskParameter)
 {
     PtrStructTask_QueueENTRY Task = (PtrStructTask_QueueENTRY)malloc(sizeof(Task_t));
     Task->Task_PtrCode            = Copy_PtrTaskCode;
@@ -258,13 +258,15 @@ void SCHEDULER_voidDispatchTasks(Queue_t * Copy_PtrQueue)
     {
         if(Local_PtrQueueNode->QueueNode_Entry->Task_u8RunMeFlag > 0)
         {
-            Local_PtrQueueNode->QueueNode_Entry->Task_PtrCode(Local_PtrQueueNode->QueueNode_Entry->Task_PtrVoidParameter);        /*!<Run the task */
-            Local_PtrQueueNode->QueueNode_Entry->Task_u8RunMeFlag -= 1;                            /*!<Reset / reduce RunMe flag */
+            /*!<Run the task */
+            Local_PtrQueueNode->QueueNode_Entry->Task_PtrCode(Local_PtrQueueNode->QueueNode_Entry->Task_PtrVoidParameter);  
+            /*!<Reset / reduce RunMe flag */      
+            Local_PtrQueueNode->QueueNode_Entry->Task_u8RunMeFlag -= 1;                            
             /*!<Periodic tasks will automatically run again*/
             /*!<if this is a 'one shot' task, remove it from the array*/
             if(Local_PtrQueueNode->QueueNode_Entry->Task_uint16Period == 0)
             {
-                /*!<The task is ready to run*/
+                /*!<One Shot Task So Delete it*/
                 SCHEDULER_voidDeleteTask(Local_uint16TaskPosition,Copy_PtrQueue);
             }
         }
