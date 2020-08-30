@@ -1,6 +1,6 @@
 /****************************************************************************
-* Title                 :   DRIVER   
-* Filename              :   DRIVER_config.h
+* Title                 :   SCHEDULER   
+* Filename              :   SCHEDULER_config.h
 * Author                :   Mohamed Hafez
 * Origin Date           :   10/08/2020
 * Version               :   1.0.0
@@ -13,20 +13,20 @@
 * Doxygen C Template 
 *
 *****************************************************************************/
-/*************** INTERFACE CHANGE LIST **************************************
+/*************** uint16ERFACE CHANGE LIST **************************************
 *
 *    Date    Version   Author          Description 
-*  10/8/20   1.0.0   Mohamed Hafez   Interface Created.
+*  10/8/20   1.0.0   Mohamed Hafez   uint16erface Created.
 *
 *****************************************************************************/
-/** @file  DRIVER_DRIVER_config.h
+/** @file  SCHEDULER_SCHEDULER_config.h
  *  @brief This module TODO: WHAT DO I DO?
  * 
  *  This is the header file for the definition TODO: MORE ABOUT ME!
  */
 //TODO: UPDATE MACRO BELOW
-#ifndef DRIVER_CONFIG_H_
-#define DRIVER_CONFIG_H_
+#ifndef SCHEDULER_CONFIG_H_
+#define SCHEDULER_CONFIG_H_
 
 /******************************************************************************
 * Includes
@@ -35,7 +35,7 @@
 /******************************************************************************
 * Preprocessor Constants
 *******************************************************************************/
-#define F_CPU 1000000UL
+
 /******************************************************************************
 * Configuration Constants
 *******************************************************************************/
