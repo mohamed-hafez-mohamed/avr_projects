@@ -14,20 +14,28 @@
 
 
 extern Queue_t ReadyQueue;
+static uint8 Global_u8LedStatus;
 
 void led_tog(void)
 {
-	pin_write(A0, HIGH_LEVEL);
-	_delay_ms(1000);
-	pin_write(A0, LOW_LEVEL);
-	_delay_ms(1000);
+	if(Global_u8LedStatus == 0)
+	{
+		pin_write(A0, HIGH_LEVEL);
+		Global_u8LedStatus = 1;
+	}
+	else
+
+	{
+		pin_write(A0, LOW_LEVEL);
+		Global_u8LedStatus = 0;
+	}
 }
 
 uint16 main(void)
 {
 	pin_dirc(A0, PIN_OUTPUT);
 	SCHEDULER_voidInitScheduler(&ReadyQueue);
-	SCHEDULER_uint16CreateTask(&led_tog,0,1,0,NULL);
+	SCHEDULER_uint16CreateTask(&led_tog,0,1000,0,NULL);
 	SCHEDULER_voidStartScheduler();
 	while (1)
 	{
